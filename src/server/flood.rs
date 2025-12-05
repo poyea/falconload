@@ -1,23 +1,22 @@
 use std::io;
-use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::net::UdpSocket;
 
-use crate::config::FloodConfig;
+use crate::config::{FloodConfig, TargetAddress};
 use crate::sender::spawn_sender;
 
-pub async fn run(listen_addr: &str, flood_config: FloodConfig) -> io::Result<()> {
-    let socket = UdpSocket::bind(listen_addr.parse::<SocketAddr>().unwrap()).await?;
-    let r = Arc::new(socket);
-    let tx = spawn_sender(r.clone()).await;
+pub async fn run(config: FloodConfig) -> io::Result<()> {
+    let source_addr = config.source_addr()?;
+    let target = config.target_addr()?;
+    let socket = UdpSocket::bind(source_addr).await?;
+    let tx = spawn_sender(Arc::new(socket)).await;
 
-    let target = flood_config.target_addr()?;
-    let flood_buf = vec![flood_config.fill_byte; flood_config.packet_size];
+    let flood_buf = vec![config.fill_byte; config.packet_size];
 
-    println!("Flood mode: Listening at {}", listen_addr);
+    println!("Flood mode: Bound to {}", config.source_address);
     println!(
         "Flooding target: {} with {} byte packets",
-        target, flood_config.packet_size
+        target, config.packet_size
     );
 
     // Flood

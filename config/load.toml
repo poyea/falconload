@@ -1,8 +1,8 @@
 [server]
-mode = "flood"
+mode = "load"
 
-[flood]
+[load]
 target_address = "127.0.0.1:9898"
 source_address = "0.0.0.0:0"
-packet_size = 5120
-fill_byte = 0xFF
+message = "ping"
+interval_ms = 1000
