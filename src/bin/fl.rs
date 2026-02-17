@@ -4,8 +4,8 @@ use std::io;
 use falconload::run_with_config;
 
 #[derive(Parser, Debug)]
-#[command(name = "falconload")]
-#[command(about = "Lightweight UDP-based load testing toolkit", long_about = None)]
+#[command(name = "fl")]
+#[command(about = "Alias for falconload", long_about = None)]
 struct Args {
     /// Path to configuration file
     #[arg(short, long)]
