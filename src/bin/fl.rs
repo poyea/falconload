@@ -5,7 +5,7 @@ use falconload::run_with_config;
 
 #[derive(Parser, Debug)]
 #[command(name = "fl")]
-#[command(about = "Alias for falconload", long_about = None)]
+#[command(about = "Lightweight UDP-based load testing toolkit", long_about = None)]
 struct Args {
     /// Path to configuration file
     #[arg(short, long)]
